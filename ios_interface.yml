@@ -26,6 +26,8 @@
   vars_files:
     - ./creds/default.yml
   connection: network_cli
+  collections:
+    - cisco.ios
   # gather_facts: no
   # vars:
     # csvfile: "{{ lookup('file', './csv-files/interfaces.csv') }}"
