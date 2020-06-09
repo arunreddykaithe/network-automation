@@ -1,0 +1,60 @@
+  
+---
+## Playbook to get system time and append it to backup files
+
+- hosts: localhost
+
+  tasks:
+   - name: Get ansible date/time facts
+     setup:
+       filter: "ansible_date_time"
+       gather_subset: "!all"
+
+   - name: Store DTG as fact
+     set_fact:
+       DTG: "{{ ansible_date_time.date }}"
+
+   - name: Create Directory {{hostvars.localhost.DTG}}
+     file:
+      path: ~/repos/ansible/network-automation/backup/{{hostvars.localhost.DTG}}
+      state: directory
+  run_once: true
+
+- hosts: CSR_Routers 
+  vars_files:
+    - ./creds/default.yml
+
+  tasks:
+   - name: Backup CSR Devices
+     ios_command:
+       commands: show run
+     register: config
+
+
+   - name: Save output to 
+     copy:
+       content: "{{config.stdout[0]}}"
+       dest: "~/repos/ansible/network-automation/backup/{{hostvars.localhost.DTG}}/{{inventory_hostname}}-{{hostvars.localhost.DTG}}-config.txt"
+
+
+   - name: Backup current switch config (ios)-2
+     ios_config:
+       backup: yes
+     register: backup_ios_location
+     when: ansible_network_os == 'ios'
+     
+   # - name: Save output 
+   #   copy:
+   #     content: "{{backup_ios_location.stdout[0]}}"
+   #     dest: "~/repos/ansible/network-automation/backup/{{hostvars.localhost.DTG}}/{{inventory_hostname}}-{{hostvars.localhost.DTG}}-config2.txt"
+
+# - hosts: SWITCHES
+
+#   tasks:
+#    - name: Backup Catalyst Switch 
+
+#      ios_config:
+#        backup: yes
+#        backup_options:
+#          filename: "{{inventory_hostname}}-{{hostvars.localhost.DTG}}-config.txt"
+#          dir_path: ~/repos/ansible/network-automation/backup/{{hostvars.localhost.DTG}}

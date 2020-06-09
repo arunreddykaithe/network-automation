@@ -1,0 +1,83 @@
+  
+---
+## Playbook to get system time and append it to backup files
+
+# - hosts: localhost
+#   tasks:
+
+#   - set_fact:
+#       path: "{{ playbook_dir }}/isg-configs"
+
+#   - name: ENSURE DIR EXISTS - IOS
+#     file:
+#       path: "{{ path }}"
+#       state: "directory"
+
+#   - template:
+#       src: mgmisg.j2
+#       dest: "{{ path }}/{{ inventory_hostname }}.txt"
+
+
+
+
+
+- name: Apply  standard ISG template
+  hosts: mgm
+  vars_files:
+    - ./creds/default.yml
+
+  # connection: network_cli
+  # gather_facts: no
+  # vars:
+    # csvfile: "{{ lookup('file', './csv-files/interfaces.csv') }}"
+    # erase: false
+
+  tasks:
+
+  # - name: Apply standard router template
+  #   ios_config:
+  #     src: "./templates/isg_ios.j2"
+  #   # when: not erase
+
+  - name: Apply standard router template
+    ios_config:
+      lines:
+        - "service-policy type control {{ item.value.rules }}"
+        - "ip address {{ item.value.ip }} {{ item.value.netmask }}"
+      parents: "interface TenGigabitEthernet0/0/0.{{ item.key }}"
+      # save_when: modified
+    with_dict: "{{ interface }}"
+
+  - name: Clear Subscriber sessions for VLANS in list
+    ios_command:
+      commands:
+        - "clear subscriber session identifier nas-port vlan {{ item.key }}"
+    with_dict: "{{ interface }}"
+    tags: [ 'clear_sessions', 'never', ]
+
+  - name: Clear Subscriber sessions  ALL 
+    ios_command:
+      commands:
+        - "clear subscriber session "
+    with_dict: "{{ interface }}"
+    tags: [ 'clear_sessions_all', 'never', ]
+
+
+  # - name: Apply standard router template
+  #   ios_config:
+  #     # provider: "{{ provider_creds }}" 
+  #     lines:
+  #       - service-policy type control BYPASS
+  #       - ip address 10.13.0.2 255.255.128.0
+  #   # parents: int gig1/0/11
+  #     parents: interface TenGigabitEthernet0/0/0.1170
+  #     save_when: modified
+  #   # with_dict: "{{ interface }}"
+
+
+  # - name: DEPLOY ISG CONFIGS
+  #   ios_config:
+  #     src: "{{ path }}/{{ inventory_hostname }}.txt"
+  #     # provider: "{{ provider_creds }}"
+  #     host: "{{ ansible_host }}"
+

@@ -1,0 +1,32 @@
+interface TenGigabitEthernet0/0/0.{{ interface }}
+{% if int_rules is defined %}
+service-policy type control {{ int_rules }}
+{% endif %}
+
+
+
+
+{% for item in csvfile.split("\n") %}
+{%   if loop.index != 1 %}
+{%     set list = item.split(",") %}
+interface {{ list[0]|trim() }}
+ description {{ list[2]|trim() }}
+{%   endif %}
+{% endfor %}
+
+
+
+
+vlan: "{% for item in csvfile.split("\n") %}
+{%   if loop.index != 1 %}
+{%     set list = item.split(",") %}
+{{ list[4]|trim() }}
+{%   endif %}
+{% endfor %}"
+
+rules: "{% for item in csvfile.split("\n") %}
+{%   if loop.index != 1 %}
+{%     set list = item.split(",") %}
+{{ list[5]|trim() }}
+{%   endif %}
+{% endfor %}"
