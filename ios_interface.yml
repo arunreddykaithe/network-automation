@@ -25,8 +25,7 @@
   hosts: mgm
   vars_files:
     - ./creds/default.yml
-
-  # connection: network_cli
+  connection: network_cli
   # gather_facts: no
   # vars:
     # csvfile: "{{ lookup('file', './csv-files/interfaces.csv') }}"
