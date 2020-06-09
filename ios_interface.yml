@@ -48,6 +48,8 @@
       parents: "interface TenGigabitEthernet0/0/0.{{ item.key }}"
       # save_when: modified
     with_dict: "{{ interface }}"
+    when: ansible_network_os == 'ios'
+
 
   - name: Clear Subscriber sessions for VLANS in list
     ios_command:
