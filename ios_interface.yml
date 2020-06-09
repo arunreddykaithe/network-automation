@@ -25,7 +25,7 @@
   hosts: mgm
   vars_files:
     - ./creds/default.yml
-  connection: network_cli
+  connection: paramiko
   collections:
     - cisco.ios
   # gather_facts: no
