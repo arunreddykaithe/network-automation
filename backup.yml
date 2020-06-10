@@ -18,7 +18,7 @@
 
    - name: Create Directory {{hostvars.localhost.DTG}}
      file:
-      path: "{{ playbook_dire }}/ISGbackup/{{hostvars.localhost.DTG}}"
+      path: "{{ playbook_dir }}/isgbackup/{{hostvars.localhost.DTG}}"
       state: directory
   run_once: true
 
@@ -40,7 +40,7 @@
    - name: Save output to 
      copy:
        content: "{{config.stdout[0]}}"
-       dest: "{{ playbook_dire }}/ISGbackup/{{hostvars.localhost.DTG}}/{{inventory_hostname}}-{{hostvars.localhost.DTG}}-config.txt"
+       dest: "{{ playbook_dir }}/isgbackup/{{hostvars.localhost.DTG}}/{{inventory_hostname}}-{{hostvars.localhost.DTG}}-config.txt"
 
 
    - name: Backup current switch config (ios)-2
