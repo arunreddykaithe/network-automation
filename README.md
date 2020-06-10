@@ -23,7 +23,4 @@ ansible-playbook backup.yml --ask-vault-pass -e isg_location=tac
 
 	hostname , dns, dn search 
 
-3. TenGigabitEthernet0/0/0.1170
-1170
-ny-guest
-PARK_RULES
+
