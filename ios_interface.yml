@@ -25,8 +25,8 @@
   hosts: mgm
   vars_files:
     - ./creds/default.yml
-  collections:
-    - cisco.ios
+  # collections:
+  #   - cisco.ios
   # gather_facts: no
   # vars:
     # csvfile: "{{ lookup('file', './csv-files/interfaces.csv') }}"
