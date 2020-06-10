@@ -22,9 +22,11 @@
 
 
 - name: Apply  standard ISG template
-  hosts: mgm
+  hosts: "{{ isg_location }}"
   vars_files:
     - ./creds/default.yml
+    - ./vars/main.yml
+
   # collections:
   #   - cisco.ios
   # gather_facts: no

@@ -3,6 +3,8 @@
 ## Playbook to get system time and append it to backup files
 
 - hosts: localhost
+  vars_files:
+    - ./vars/main.yml
 
   tasks:
    - name: Get ansible date/time facts
@@ -16,13 +18,17 @@
 
    - name: Create Directory {{hostvars.localhost.DTG}}
      file:
-      path: /projects/ISGbackup/{{hostvars.localhost.DTG}}
+      path: "{{ playbook_dire }}/ISGbackup/{{hostvars.localhost.DTG}}"
       state: directory
   run_once: true
 
-- hosts: CSR_Routers 
+
+
+
+- hosts: "{{ isg_location }}"
   vars_files:
     - ./creds/default.yml
+    - ./vars/main.yml
 
   tasks:
    - name: Backup CSR Devices
@@ -34,7 +40,7 @@
    - name: Save output to 
      copy:
        content: "{{config.stdout[0]}}"
-       dest: "/projects/ISGbackup/{{hostvars.localhost.DTG}}/{{inventory_hostname}}-{{hostvars.localhost.DTG}}-config.txt"
+       dest: "{{ playbook_dire }}/ISGbackup/{{hostvars.localhost.DTG}}/{{inventory_hostname}}-{{hostvars.localhost.DTG}}-config.txt"
 
 
    - name: Backup current switch config (ios)-2

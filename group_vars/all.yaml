@@ -1,18 +1,20 @@
----
+# ---
 
 
-interface:
-  1170: 
-    ip: 10.13.0.2
-    netmask: 255.255.128.0
-    rules: PARK_RULES
+# isg_location: mgm # Pick anyything from invetory like CSR_Routers, mgm, cws, tac, nwa
 
-  1110:
-    ip: 10.5.64.2
-    netmask: 255.255.224.0
-    rules: BYPASS
+# interface:
+#   1170: 
+#     ip: 10.13.0.2
+#     netmask: 255.255.128.0
+#     rules: PARK_RULES
 
-   # 1170:
-   #  ip:
-   #  rules:
-      
+#   1110:
+#     ip: 10.5.64.2
+#     netmask: 255.255.224.0
+#     rules: BYPASS
+
+#    # 1170:
+#    #  ip:
+#    #  rules:
+#       
