@@ -25,7 +25,6 @@
   hosts: mgm
   vars_files:
     - ./creds/default.yml
-  connection: sshpass
   collections:
     - cisco.ios
   # gather_facts: no
