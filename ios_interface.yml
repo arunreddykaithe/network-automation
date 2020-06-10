@@ -60,7 +60,7 @@
   - name: Clear Subscriber sessions  ALL 
     ios_command:
       commands:
-        - "clear subscriber session "
+        - "clear subscriber session identifier vlan 1170"
     with_dict: "{{ interface }}"
     tags: [ 'clear_sessions_all', 'never', ]
 
