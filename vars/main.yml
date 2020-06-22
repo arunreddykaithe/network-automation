@@ -8,7 +8,9 @@ interface:
   1170: 
     ip: 10.13.0.2
     netmask: 255.255.128.0
-    rules: PARK_RULES
+    rules: webauth_tal
+
+
 
   1110:
     ip: 10.5.64.2

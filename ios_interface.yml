@@ -45,7 +45,7 @@
     ios_config:
       lines:
         - "service-policy type control {{ item.value.rules }}"
-        - "ip address {{ item.value.ip }} {{ item.value.netmask }}"
+        # - "ip address {{ item.value.ip }} {{ item.value.netmask }}"
       parents: "interface TenGigabitEthernet0/0/0.{{ item.key }}"
       # save_when: modified
     with_dict: "{{ interface }}"
